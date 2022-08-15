@@ -3,6 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'card_content.dart';
 import 'constants.dart';
+import 'results_page.dart';
+import 'bottum_button.dart';
+import 'round_icon_button.dart';
 
 enum Gender {
   male,
@@ -21,6 +24,7 @@ class _InputPageState extends State<InputPage> {
   Gender selectedGender = Gender.non;
   int height = 180;
   int weight = 60;
+  int age = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -149,38 +153,30 @@ class _InputPageState extends State<InputPage> {
                           weight.toString(),
                           style: kNumberstyle,
                         ),
-                        SizedBox(
-                          height: 60,
-                          width: screenHeight * 0.25,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: RoundIconButton(
-                                  child: FontAwesomeIcons.minus,
-                                  function: () {
-                                    setState(() {
-                                      weight--;
-                                    });
-                                  },
-                                  screenHeight: screenHeight,
-                                  screenWidth: screenWidth,
-                                ),
-                              ),
-                              Expanded(
-                                child: RoundIconButton(
-                                  child: FontAwesomeIcons.plus,
-                                  function: () {
-                                    setState(() {
-                                      weight++;
-                                    });
-                                  },
-                                  screenHeight: screenHeight,
-                                  screenWidth: screenWidth,
-                                ),
-                              ),
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              child: FontAwesomeIcons.minus,
+                              function: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                              screenHeight: screenHeight,
+                              screenWidth: screenWidth,
+                            ),
+                            RoundIconButton(
+                              child: FontAwesomeIcons.plus,
+                              function: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                              screenHeight: screenHeight,
+                              screenWidth: screenWidth,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -192,51 +188,58 @@ class _InputPageState extends State<InputPage> {
                     colour: kActiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelstyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberstyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              child: FontAwesomeIcons.minus,
+                              function: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                              screenHeight: screenHeight,
+                              screenWidth: screenWidth,
+                            ),
+                            RoundIconButton(
+                              child: FontAwesomeIcons.plus,
+                              function: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                              screenHeight: screenHeight,
+                              screenWidth: screenWidth,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            height: screenHeight * 0.08,
-            margin: EdgeInsets.only(
-              top: 7.0,
-            ),
-            decoration: BoxDecoration(
-              color: kInactiveCardColor,
-            ),
-          )
+          BottomButton(
+            screenHeight: screenHeight,
+            Title: 'CALCULATE',
+            Func: () {
+              setState(() {
+                Navigator.pushNamed(context, 'calc');
+              });
+            },
+          ),
         ],
       ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton(
-      {required this.child,
-      required this.function,
-      required this.screenHeight,
-      required this.screenWidth});
-
-  final IconData child;
-  final Function function;
-  double screenHeight;
-  double screenWidth;
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(child),
-      constraints: BoxConstraints.tightFor(
-        width: screenWidth * 0.02,
-        height: screenHeight * 0.02,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      fillColor: Color(0xFF4C4F5E),
-      onPressed: function(),
     );
   }
 }
