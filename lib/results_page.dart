@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'constants.dart';
 import 'bottum_button.dart';
 import 'reusable_card.dart';
 
-class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+class ResultPage extends StatefulWidget {
+  ResultPage(
+      {required this.bmiResult,
+      required this.textResult,
+      required this.advice});
 
+  final String? bmiResult;
+  final String? textResult;
+  final String? advice;
+
+  @override
+  State<ResultPage> createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -19,7 +32,10 @@ class ResultPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: Text('Your Result'),
+            child: Container(
+              height: screenHeight * 0.02,
+              child: Text('Your Result'),
+            ),
           ),
           Expanded(
             child: ReusableCard(
@@ -29,23 +45,37 @@ class ResultPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Normal'),
-                  Text('18.3'),
+                  Text('${widget.bmiResult?.toUpperCase()}'),
+                  Text('${widget.textResult}'),
                   Text(
-                    'Your BMI reault is quite low',
+                    '${widget.advice}',
                     textAlign: TextAlign.center,
                   ),
                 ],
               ),
             ),
           ),
-          BottomButton(
-            screenHeight: screenHeight,
-            Title: 'RE-CALCULATE',
-            Func: () {
-              Navigator.pop(context);
-            },
-          )
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+              child: Container(
+                height: screenHeight * 0.08,
+                decoration: BoxDecoration(
+                  color: kInactiveCardColor,
+                ),
+                child: Center(
+                  child: Text(
+                    'Hello',
+                    style: kLabelstyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

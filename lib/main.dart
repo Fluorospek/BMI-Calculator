@@ -27,11 +27,7 @@ class BMICalc extends StatelessWidget {
           ),
         ),
       ),
-      routes: {
-        'home': (context) => InputPage(),
-        'calc': (context) => ResultPage(),
-      },
-      initialRoute: 'home',
+      home: InputPage(),
     );
   }
 }
